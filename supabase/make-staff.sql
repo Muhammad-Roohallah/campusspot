@@ -3,5 +3,5 @@
 insert into public.staff (user_id, note)
 select id, 'library cafe barista'
 from auth.users
-where email = 'barista@example.com'      -- <- change this
+where email = 'wokecafe@lib.com'      -- <- change this
 on conflict (user_id) do nothing;

@@ -39,7 +39,15 @@ export function Home() {
         </a>
       </div>
       <p className="hint">Library café is updated by café staff{snap.cafe.updatedAt ? `, last ${fmtDur(now - snap.cafe.updatedAt)} ago` : ''}. ILS marks come from students. Parking comes from the start and end times people log.</p>
-      <p className="hint"><a href="#/staff">Staff sign in</a></p>
+      <div style={{ textAlign: 'center', marginTop: 4 }}>
+        <a
+          className="btn secondary"
+          style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 220, textDecoration: 'none' }}
+          href="#/staff"
+        >
+          {snap.staff ? `Signed in as ${snap.staffEmail}` : 'Staff sign in'}
+        </a>
+      </div>
     </Shell>
   )
 }

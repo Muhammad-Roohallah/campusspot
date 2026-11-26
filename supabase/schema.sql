@@ -54,6 +54,18 @@ create table if not exists public.room_bookings (
   primary key (room_id, day, slot)
 );
 
+-- ---------------------------------------------------------------- table grants
+-- RLS policies only filter rows; Postgres also requires the base privilege on the table itself.
+-- New projects no longer grant this automatically (the "Grant API access to new tables
+-- automatically" project setting), so it must be done here or every request gets a plain
+-- "permission denied for table ..." (42501) before RLS is even consulted.
+grant usage on schema public to anon, authenticated;
+grant select on public.cafe_seats, public.ils_marks, public.parking_logs, public.room_bookings to anon, authenticated;
+grant insert, update on public.ils_marks to anon, authenticated;
+grant insert, update, delete on public.parking_logs to anon, authenticated;
+grant insert, update, delete on public.cafe_seats, public.room_bookings to authenticated;
+grant select on public.staff to authenticated;
+
 -- ---------------------------------------------------------------- Row Level Security
 alter table public.staff         enable row level security;
 alter table public.cafe_seats    enable row level security;
