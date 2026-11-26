@@ -6,3 +6,7 @@ dist
 .DS_Store
 CLAUDE.md
 .claude
+
+# Phase 3 study data (participant answers)
+evaluation/*.csv
+evaluation/results.md

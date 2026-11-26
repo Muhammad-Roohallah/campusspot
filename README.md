@@ -35,7 +35,9 @@ The barista toggles a chair on their phone and every student's screen updates. T
 
 The free plan pauses a project after about a week with no activity. If the demo looks frozen, open the Supabase dashboard and press **Restore**.
 
-## Put it on GitHub Pages
+## Optional: put it on GitHub Pages
+
+Not needed to run or review the prototype; demo mode works locally with `npm run dev`.
 
 1. Create a repository and push this folder (see "Pushing to GitHub" below).
 2. **Settings → Pages → Build and deployment → Source: GitHub Actions**.
@@ -53,6 +55,17 @@ git remote add origin https://github.com/<your-username>/<repository-name>.git
 git push -u origin main
 ```
 
+## Remote study mode (Phase 3 evaluation)
+
+Open the app with `?study=1` in the address (for example `https://<user>.github.io/<repo>/?study=1`) to run the evaluation without a moderator. The app then:
+
+1. Shows a short consent screen, resets the sample data and gives the participant a code such as `P-K4V3`.
+2. Shows six tasks one at a time (café seat, mark a desk, leave a desk, collab room at 2:30 pm, log parking, parking alert). Each has a timer, "I am done" and "I cannot do this".
+3. Records, for every task: success (checked from the app's own data, or from the answer to a one-line question for the two reading tasks), time, taps, screen changes, a 1 to 7 ease rating and an optional comment.
+4. At the end shows a results code (starts with `CS1.`). The participant pastes it into the Google Form, which holds the questionnaires.
+
+Study mode hides the demo controls, needs demo mode (it refuses to run against the live database, so do not set the Supabase variables for the study deployment) and keeps everything on the participant's device until they paste the code. `?study=0` clears a saved session. Without the flag the app behaves as before. See `evaluation/` for the form script and analysis scripts.
+
 ## Technology choices and why
 
 | Choice | Why this and not something else |
@@ -64,7 +77,7 @@ git push -u origin main
 | **Row Level Security instead of a custom server** | The rules "students can read, only staff can change the café" live in the database, so a modified browser cannot bypass them. See `supabase/schema.sql`. |
 | **No router library** | Five screens and hash routes. A 15-line hook is easier to explain than a dependency. |
 | **Vitest** | Same tool as Vite, no extra setup. Tests cover the rules and the data layer. |
-| **GitHub Pages + Actions** | Free hosting, and every push is tested and deployed. |
+| **GitHub Pages + Actions** | Optional free hosting, with every push tested and deployed. |
 
 ### Architecture
 

@@ -8,6 +8,9 @@ import { Cafe } from './screens/Cafe'
 import { Library } from './screens/Library'
 import { Parking } from './screens/Parking'
 import { Staff } from './screens/Staff'
+import { StudyPanel, studyEnabled } from './study/StudyPanel'
+
+const study = studyEnabled()
 
 function Routes() {
   const route = useRoute()
@@ -17,13 +20,16 @@ function Routes() {
   useZoneWatcher()
   // Show data problems (for example a failed write) as a message, then clear them.
   useEffect(() => { if (snap.error) { toast(snap.error); store.clearError() } }, [snap.error, store, toast])
-  switch (route[0]) {
-    case 'cafe': return <Cafe />
-    case 'library': return <Library route={route} />
-    case 'parking': return <Parking route={route} />
-    case 'staff': return <Staff />
-    default: return <Home />
-  }
+  const screen = (() => {
+    switch (route[0]) {
+      case 'cafe': return <Cafe />
+      case 'library': return <Library route={route} />
+      case 'parking': return <Parking route={route} />
+      case 'staff': return <Staff />
+      default: return <Home />
+    }
+  })()
+  return <>{study && <StudyPanel />}{screen}</>
 }
 
 export default function App() {

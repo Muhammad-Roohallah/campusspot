@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { useNow, useStore } from '../data/StoreContext'
 import { fmtTime } from '../domain/time'
+import { studyEnabled } from '../study/StudyPanel'
 
 export function Shell({ title, subtitle, back, children }: { title: string; subtitle?: string; back?: string; children: ReactNode }) {
   const now = useNow()
@@ -17,7 +18,7 @@ export function Shell({ title, subtitle, back, children }: { title: string; subt
         <div className="clock">{store.mode === 'local' ? 'Demo ' : ''}{fmtTime(now)}</div>
       </header>
       <main>{children}</main>
-      {store.demo && <DemoControls />}
+      {store.demo && !studyEnabled() && <DemoControls />}
     </div>
   )
 }
