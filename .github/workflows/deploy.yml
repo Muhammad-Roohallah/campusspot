@@ -27,7 +27,8 @@ jobs:
       - run: npm test
       - run: npm run build
         env:
-          VITE_BASE: /${{ github.event.repository.name }}/
+          # Served at the domain root (custom domain via CNAME), not a /<repo>/ subpath.
+          VITE_BASE: /
           # Public values (the anon key is designed to be public). Set under Settings > Secrets and variables > Actions > Variables.
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}

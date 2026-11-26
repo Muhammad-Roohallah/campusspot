@@ -42,9 +42,14 @@ Not needed to run or review the prototype; demo mode works locally with `npm run
 1. Create a repository and push this folder (see "Pushing to GitHub" below).
 2. **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 3. **Settings → Secrets and variables → Actions → Variables**: add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (these two values are public by design).
-4. Move `github-pages-workflow.yml` to `.github/workflows/deploy.yml` (`mkdir -p .github/workflows && mv github-pages-workflow.yml .github/workflows/deploy.yml`), then push to `main`. The workflow runs the tests, builds and publishes. The site appears at `https://<your-username>.github.io/<repository-name>/`.
+4. The workflow lives at `.github/workflows/deploy.yml` already. Push to `main` and it runs the tests, builds and publishes. The site appears at `https://<your-username>.github.io/<repository-name>/` (or at a custom domain, see below).
 
 The app uses hash routes (`#/library/G`), so Pages needs no special redirect setup.
+
+**Custom domain.** This repo is set up to serve from a domain root rather than a `/<repository-name>/` subpath: `public/CNAME` holds the domain (so it survives every deploy) and the workflow builds with `VITE_BASE: /`. To point your own domain at it:
+
+1. At your registrar, add DNS records for the apex domain: four `A` records to `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` (optionally `AAAA` records to `2606:50c0:8000::153` .. `8003::153` for IPv6). For a subdomain instead, add one `CNAME` record pointing to `<your-username>.github.io`.
+2. **Settings → Pages → Custom domain**: enter the domain, wait for DNS verification, then turn on **Enforce HTTPS**.
 
 ```bash
 git init
@@ -57,7 +62,7 @@ git push -u origin main
 
 ## Remote study mode (Phase 3 evaluation)
 
-Open the app with `?study=1` in the address (for example `https://<user>.github.io/<repo>/?study=1`) to run the evaluation without a moderator. The app then:
+Open the app with `?study=1` in the address (for example `https://campusspot.design/?study=1`) to run the evaluation without a moderator. The app then:
 
 1. Shows a short consent screen, resets the sample data and gives the participant a code such as `P-K4V3`.
 2. Shows six tasks one at a time (café seat, mark a desk, leave a desk, collab room at 2:30 pm, log parking, parking alert). Each has a timer, "I am done" and "I cannot do this".
