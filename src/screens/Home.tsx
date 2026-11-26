@@ -16,7 +16,7 @@ export function Home() {
   const stale = cafeStale(snap.cafe, now)
 
   return (
-    <Shell title="Campus" subtitle="Find a space before you walk there">
+    <Shell title="CampusSpot" subtitle="Find a space before you walk there">
       {store.mode === 'local' && <div className="banner info">Demo mode. Data is stored in this browser only and is not shared with other devices.</div>}
       {!snap.ready && <div className="banner info">Loading live data…</div>}
       <div className="zl">
